@@ -1,6 +1,9 @@
-# CG Raycast Extension
-
+<h1 align="center">CG Raycast</sup></h1>
+<p align="center">
 A Raycast extension for quickly looking up cryptocurrency data.
+</p>
+
+<img align="center" src="https://github.com/RealTong/cg-raycast/blob/main/metadata/cg-raycast-1.png?raw=true">
 
 ## Features
 
@@ -27,6 +30,7 @@ A Raycast extension for quickly looking up cryptocurrency data.
 1. Make sure you have the Raycast app installed.
 2. In the project directory, run the following commands:
    ```bash
+   git clone https://github.com/RealTong/cg-raycast.git && cd cg-raycast
    npm install
    npm run build
    ```
@@ -35,9 +39,9 @@ A Raycast extension for quickly looking up cryptocurrency data.
 ## Usage
 
 1. Enter the following commands in Raycast:
-    - `Market Info`
-    - `Exchange Info`
-    - `Open Interest`
+   - `Market Info`
+   - `Exchange Info`
+   - `Open Interest`
 
 2. Use the search bar to quickly find a specific coin.
 
