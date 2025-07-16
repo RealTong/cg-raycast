@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "cf-raycast",
+  "name": "cg-raycast",
   "title": "CG Raycast",
   "description": "A Raycast extension for fast querying of cryptocurrency data.",
   "icon": "icon.png",
