@@ -1,49 +1,49 @@
 # CG Raycast Extension
 
-一个用于快速查询加密货币数据的 Raycast 扩展。
+A Raycast extension for quickly looking up cryptocurrency data.
 
-## 功能特性
+## Features
 
-### 🔍 Market Info - 市场信息
+### 🔍 Market Info
 
-- 查看实时币价和24小时涨跌幅
-- 显示持仓量和成交量数据
-- 点击查看详细信息，包括各交易所数据
-- 支持多个交易所的数据对比
+- View real-time prices and 24-hour percentage changes.
+- Display open interest and trading volume data.
+- Click to see details, including data from various exchanges.
+- Supports data comparison across multiple exchanges.
 
-### 📊 Open Interest - 持仓量
+### 📊 Open Interest
 
-- 查看各币种的持仓量数据
-- 显示各交易所的持仓分布
-- 包含价格、成交量和多空比信息
+- Check open interest data for each coin.
+- Show open interest distribution by exchange.
+- Includes price, volume, and long/short ratio.
 
-### 📊 Exchange Info - 交易所信息
+### 📊 Exchange Info
 
-- 查看各交易所的交易数据
-- 查看交易所评分
+- View trading data from various exchanges.
+- Check exchange ratings.
 
-## 安装说明
+## Installation
 
-1. 确保你有 Raycast 应用
-2. 在项目目录运行：
+1. Make sure you have the Raycast app installed.
+2. In the project directory, run the following commands:
    ```bash
    npm install
    npm run build
    ```
-3. 在 Raycast 中导入该扩展
+3. Import the extension into Raycast.
 
-## 使用说明
+## Usage
 
-1. 在 Raycast 中输入相应的命令：
-    - `Market Info` - 市场信息
-    - `Exchange Info` - 查看交易所信息
-    - `Open Interest` - 查看持仓量
+1. Enter the following commands in Raycast:
+    - `Market Info`
+    - `Exchange Info`
+    - `Open Interest`
 
-2. 使用搜索功能快速找到你关心的币种
+2. Use the search bar to quickly find a specific coin.
 
-3. 点击项目查看详细信息
+3. Click on an item to view its details.
 
-## 技术栈
+## Tech Stack
 
 - React + TypeScript
 - Raycast API
