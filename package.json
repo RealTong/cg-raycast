@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "cfcg-raycast",
-  "title": "CFCG Raycast",
-  "description": "CFCG 的 Raycast 扩展，用于在 Raycast 中搜索 Cryptocurrency 价格和持仓信息。",
+  "name": "cg-raycast",
+  "title": "CG Raycast",
+  "description": "CG 的 Raycast 扩展，用于在 Raycast 中搜索 Cryptocurrency 价格和持仓信息。",
   "icon": "icon.png",
   "author": "RealTong",
   "categories": [
