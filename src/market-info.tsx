@@ -3,6 +3,7 @@ import { useCachedPromise } from "@raycast/utils";
 import { useMemo, useState } from "react";
 import { fetchCoinTickets, fetchPriceChange } from "./utils/cg-api";
 import { IPriceChange } from "./types/cg/priceChange";
+import { addSymbolToLiveTickers, checkSymbolInLiveTickers, removeSymbolFromLiveTickers } from "./utils/cache";
 
 type SortOrder = "asc" | "desc";
 type TimeFrame = "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "24h";
@@ -48,7 +49,7 @@ function CoinDetail({ symbol }: { symbol: string }) {
     async (symbol: string) => {
       return await fetchCoinTickets(symbol);
     },
-    [symbol],
+    [symbol]
   );
 
   const formatCurrency = (value: number) => {
@@ -102,17 +103,18 @@ const getPercentForTimeFrame = (item: IPriceChange, timeFrame: TimeFrame): numbe
     "1h": "h1PriceChangePercent",
     "4h": "h4PriceChangePercent",
     "12h": "h12PriceChangePercent",
-    "24h": "h24PriceChangePercent",
+    "24h": "h24PriceChangePercent"
   };
   return item[mapping[timeFrame]] as number;
 };
 
 export default function Command(props: { arguments: { symbol: string } }) {
   const { symbol } = props.arguments;
-  console.log(`symbol: ${symbol}`);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder | null>(null);
-  const { data, isLoading } = useCachedPromise(fetchPriceChange);
+  const { isLoading, data, revalidate } = useCachedPromise(fetchPriceChange,[], {
+    keepPreviousData: true
+  });
 
   const displayData = useMemo(() => {
     if (!data?.data) return [];
@@ -153,13 +155,18 @@ export default function Command(props: { arguments: { symbol: string } }) {
       isLoading={isLoading}
       searchBarPlaceholder="Search symbols..."
       searchBarAccessory={<PriceChangeDropdown onSelectionChange={handleSelectionChange} />}
+      actions={
+        <ActionPanel>
+          <Action title="Reload" onAction={revalidate} icon={Icon.ArrowClockwise} />
+        </ActionPanel>
+      }
     >
-      {displayData.map((item) => {
+      {displayData.map((item, index) => {
         // 显示当前选择的时间段的百分比，如果没有选择则显示24h
         const displayTimeFrame = selectedTimeFrame || "24h";
         const currentPercent = getPercentForTimeFrame(item, displayTimeFrame);
         const isPositive = currentPercent > 0;
-
+        const isSymbolInLiveTickers = checkSymbolInLiveTickers(item.symbol);
         return (
           <List.Item
             key={item.symbol}
@@ -172,17 +179,28 @@ export default function Command(props: { arguments: { symbol: string } }) {
             accessories={[
               {
                 text: `💲 ${formatPrice(item.price)}`,
-                tooltip: `Current Price: ${formatPrice(item.price)}`,
+                tooltip: `Current Price: ${formatPrice(item.price)}`
               },
               {
                 text: `${isPositive ? "📈" : "📉"} ${formatPercentage(currentPercent)}`,
                 tooltip: `${displayTimeFrame} Price Change: ${formatPercentage(currentPercent)}`,
-                tag: isPositive ? { value: "🟢", color: "#00ff00" } : { value: "🔴", color: "#ff0000" },
-              },
+                tag: isPositive ? { value: "🟢", color: "#00ff00" } : { value: "🔴", color: "#ff0000" }
+              }
             ]}
             actions={
               <ActionPanel>
                 <Action.Push title="View Details" target={<CoinDetail symbol={item.symbol} />} icon={Icon.Info} />
+                <Action
+                  title={isSymbolInLiveTickers ? "Remove from Live Tickers" : "Add to Live Tickers"}
+                  onAction={() => {
+                    if (isSymbolInLiveTickers) {
+                      removeSymbolFromLiveTickers(item.symbol);
+                    } else {
+                      addSymbolToLiveTickers({ symbol: item.symbol, iconUrl: item.symbolLogo, index: index });
+                    }
+                  }}
+                  icon={Icon.Globe}
+                />
               </ActionPanel>
             }
           />
