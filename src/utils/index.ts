@@ -1,3 +1,5 @@
+import { Cache } from "@raycast/api";
+
 export function formatAmount(amount: number): string {
   if (amount >= 1e9) {
     return `$${(amount / 1e9).toFixed(2)}B`;

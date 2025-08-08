@@ -43,6 +43,14 @@
       "title": "Exchange Info",
       "description": "View cryptocurrency exchange information",
       "mode": "view"
+    },
+    {
+      "name": "watchlist",
+      "title": "WatchList",
+      "subtitle": "WatchList",
+      "description": "View cryptocurrency ticker in the menu bar",
+      "mode": "menu-bar",
+      "interval": "15s"
     }
   ],
   "preferences": [
