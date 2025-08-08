@@ -3,7 +3,7 @@ import { useCachedPromise } from "@raycast/utils";
 import { useMemo, useState } from "react";
 import { fetchCoinTickets, fetchPriceChange } from "./utils/cg-api";
 import { IPriceChange } from "./types/cg/priceChange";
-import { addSymbolToLiveTickers, checkSymbolInLiveTickers, removeSymbolFromLiveTickers } from "./utils/cache";
+import useWatchList from "./hooks/useWatchList";
 
 type SortOrder = "asc" | "desc";
 type TimeFrame = "5m" | "15m" | "30m" | "1h" | "4h" | "12h" | "24h";
@@ -112,9 +112,11 @@ export default function Command(props: { arguments: { symbol: string } }) {
   const { symbol } = props.arguments;
   const [selectedTimeFrame, setSelectedTimeFrame] = useState<TimeFrame | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder | null>(null);
-  const { isLoading, data, revalidate } = useCachedPromise(fetchPriceChange,[], {
+  const { isLoading, data, revalidate } = useCachedPromise(fetchPriceChange, [], {
     keepPreviousData: true
   });
+
+  const {isInWatchList, addTickerToWatchList, removeTickerFromWatchList} = useWatchList();
 
   const displayData = useMemo(() => {
     if (!data?.data) return [];
@@ -166,7 +168,7 @@ export default function Command(props: { arguments: { symbol: string } }) {
         const displayTimeFrame = selectedTimeFrame || "24h";
         const currentPercent = getPercentForTimeFrame(item, displayTimeFrame);
         const isPositive = currentPercent > 0;
-        const isSymbolInLiveTickers = checkSymbolInLiveTickers(item.symbol);
+        const isSymbolInWatchList = isInWatchList(item.symbol);
         return (
           <List.Item
             key={item.symbol}
@@ -191,12 +193,12 @@ export default function Command(props: { arguments: { symbol: string } }) {
               <ActionPanel>
                 <Action.Push title="View Details" target={<CoinDetail symbol={item.symbol} />} icon={Icon.Info} />
                 <Action
-                  title={isSymbolInLiveTickers ? "Remove from Live Tickers" : "Add to Live Tickers"}
-                  onAction={() => {
-                    if (isSymbolInLiveTickers) {
-                      removeSymbolFromLiveTickers(item.symbol);
+                  title={isSymbolInWatchList ? "Remove from Watch List" : "Add to Watch List"}
+                  onAction={async() => {
+                    if (isSymbolInWatchList) {
+                      await removeTickerFromWatchList(item.symbol);
                     } else {
-                      addSymbolToLiveTickers({ symbol: item.symbol, iconUrl: item.symbolLogo, index: index });
+                      await addTickerToWatchList({ symbol: item.symbol, iconUrl: item.symbolLogo, index: index });
                     }
                   }}
                   icon={Icon.Globe}
