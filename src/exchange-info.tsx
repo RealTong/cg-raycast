@@ -23,6 +23,12 @@ export default function Command() {
               metadata={
                 <List.Item.Detail.Metadata>
                   <List.Item.Detail.Metadata.Label
+                    title={exchange.exchangeName}
+                    icon={exchange.logo
+                      ? { source: exchange.logo, mask: Image.Mask.Circle }
+                      : { source: Icon.Circle, mask: Image.Mask.Circle }}
+                  />
+                  <List.Item.Detail.Metadata.Label
                     title="24h Volume"
                     text={exchange.volUsd ? formatAmount(exchange.volUsd) : ""}
                   />

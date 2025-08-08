@@ -6,13 +6,12 @@ import { IPriceChange } from "../types/cg/priceChange";
 import { Tick } from "../types/cg/ticks";
 import { IExchangeInfo } from "../types/cg/exchange";
 
-export async function fetchCoins() {
+export async function fetchAllCoins() {
   const response = await fetch(`${CG_BASE_URL}/api/v2/support/symbol`, {});
   if (response.ok) {
     const data = (await response.json()) as unknown as CGResponse<ISymbol[]>;
     return data;
   }
-  return null;
 }
 
 export async function fetchFundingRates() {

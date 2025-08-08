@@ -22,6 +22,8 @@ declare namespace Preferences {
   export type OpenInterest = ExtensionPreferences & {}
   /** Preferences accessible in the `exchange-info` command */
   export type ExchangeInfo = ExtensionPreferences & {}
+  /** Preferences accessible in the `watchlist` command */
+  export type Watchlist = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
@@ -37,5 +39,7 @@ declare namespace Arguments {
 }
   /** Arguments passed to the `exchange-info` command */
   export type ExchangeInfo = {}
+  /** Arguments passed to the `watchlist` command */
+  export type Watchlist = {}
 }
 
